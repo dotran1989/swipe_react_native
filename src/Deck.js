@@ -4,10 +4,10 @@ import { View, Animated, TouchableOpacity, Text } from 'react-native';
 class Deck extends Component {
     renderCards() {
         return this.props.data.map(item => {
-            // return this.props.renderCard(item);
-            return (
-                <Text>{item.text}</Text>
-            )
+            return this.props.renderCard(item);
+            // return (
+            //     <Text>{item.text}</Text>
+            // )
         });
     };
 
