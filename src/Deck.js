@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     View,
+    Animated,
     PanResponder
 } from 'react-native';
 
@@ -8,19 +9,20 @@ class Deck extends Component {
     constructor(props) {
         super(props);
 
+        const position = new Animated.ValueXY(); // not set (0,0) -> don't want to make any assumptions where my card is on the screen at any given point in time.
+
         // create an instance of PanResponder
         const panResponder = PanResponder.create({
             onStartShouldSetPanResponder: () => true, // want PanResponder handling user's gesture
             onPanResponderMove: (event, gesture) => { // callback when user dragging screen.
-                // console.log(`gesture:  + ${JSON.stringify(gesture)}`);
-                // console.log({...gesture});
+                position.setValue({ x: gesture.dx, y: gesture.dy });
             },
             onPanResponderRelease: () => {}
         });
 
-        this.state = { panResponder }; // 'panResponder' is own self-contained object, we're not trying to update it in shape form.
+        this.state = { panResponder, position }; // 'panResponder' is own self-contained object, we're not trying to update (mutable) it in shape form.
 
-        // OR - do not call 'setState' with panResponder
+        // OR - do not call 'setState' with panResponder, position
         /* this._panResponder = PanResponder.create({
 
         }); */
@@ -35,9 +37,12 @@ class Deck extends Component {
     render() {
         // 'this.renderCards()' only need to run once and immediately when the component renders. Helper methods use parenthesis.
         return (
-            <View {...this.state.panResponder.panHandlers}>
+            <Animated.View 
+              style={this.state.position.getLayout()}
+              {...this.state.panResponder.panHandlers}
+            >
                 {this.renderCards()}
-            </View>
+            </Animated.View>
         );
     }
 };
