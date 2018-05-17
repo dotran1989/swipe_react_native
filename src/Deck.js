@@ -15,7 +15,10 @@ class Deck extends Component {
         const panResponder = PanResponder.create({
             onStartShouldSetPanResponder: () => true, // want PanResponder handling user's gesture
             onPanResponderMove: (event, gesture) => { // callback when user dragging screen.
-                position.setValue({ x: gesture.dx, y: gesture.dy });
+                // position.setValue({ x: gesture.dx, y: gesture.dy });
+                Animated.spring(position, {
+                    toValue: { x: gesture.dx, y: gesture.dy}
+                }).start();
             },
             onPanResponderRelease: () => {}
         });
