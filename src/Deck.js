@@ -32,10 +32,17 @@ class Deck extends Component {
     }
 
     getCardStyle() {
+        // interpolation between 'x' direction that card has been dragged and the amount of rotation/size/color -> Horizontal
+        const { position } = this.state;
+        const rotate = position.x.interpolate({
+            inputRange: [-500, 0, 500],
+            outputRange: ['-120deg', '0deg', '120deg']
+        });
+
         return {
-            ...this.state.position.getLayout(), // this.state.position.getLayout() -> error ':' expected. Because we return an object key:value pair 
+            ...position.getLayout(), // this.state.position.getLayout() -> error ':' expected. Because we return an object key:value pair 
             // put '...' here to return object { x: ..., y: ... }. Take all properties of this.getLayout()
-            transform: [{ rotate: '45deg' }]
+            transform: [{ rotate }]
         }
     }
 
