@@ -31,13 +31,21 @@ class Deck extends Component {
         }); */
     }
 
+    getCardStyle() {
+        return {
+            ...this.state.position.getLayout(), // this.state.position.getLayout() -> error ':' expected. Because we return an object key:value pair 
+            // put '...' here to return object { x: ..., y: ... }. Take all properties of this.getLayout()
+            transform: [{ rotate: '45deg' }]
+        }
+    }
+
     renderCards() {
         return this.props.data.map((item, index) => {
             if (index === 0) {
                 return (
                     <Animated.View
                         key={item.id}
-                        style={this.state.position.getLayout()}
+                        style={this.getCardStyle()}
                         {...this.state.panResponder.panHandlers}
                     >
                         {this.props.renderCard(item)}
@@ -74,3 +82,9 @@ export default Deck;
     "numberActiveTouches":1,
     "_accountsForMovesUpTo":1117634840
 } */
+
+/* Transform - https://facebook.github.io/react-native/docs/transforms.html#transform
+array of object: 
+{perspective: number}, ,object: {rotate: string}, ,object: {rotateX: string}, ,object: {rotateY: string}, ,object: {rotateZ: string}, 
+,object: {scale: number}, ,object: {scaleX: number}, ,object: {scaleY: number}, ,object: {translateX: number}, 
+,object: {translateY: number}, ,object: {skewX: string}, ,object: {skewY: string}	 */
