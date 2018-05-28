@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import {
     View,
     Animated,
-    PanResponder
+    PanResponder,
+    Dimensions
 } from 'react-native';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 class Deck extends Component {
     constructor(props) {
@@ -35,13 +38,13 @@ class Deck extends Component {
         // interpolation between 'x' direction that card has been dragged and the amount of rotation/size/color -> Horizontal
         const { position } = this.state;
         const rotate = position.x.interpolate({
-            inputRange: [-500, 0, 500],
-            outputRange: ['-120deg', '0deg', '120deg']
+            inputRange: [-SCREEN_WIDTH, 0, SCREEN_WIDTH], // takes a lot more distance to get 120 degrees of rotation.
+            outputRange: ['-90deg', '0deg', '90deg']
         });
 
         return {
             ...position.getLayout(), // this.state.position.getLayout() -> error ':' expected. Because we return an object key:value pair 
-            // put '...' here to return object { x: ..., y: ... }. Take all properties of this.getLayout()
+            // put '...' here to return object { x: ..., y: ..., transform: ... }. Take all properties of this.getLayout()
             transform: [{ rotate }]
         }
     }
