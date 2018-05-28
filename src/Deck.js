@@ -23,7 +23,9 @@ class Deck extends Component {
                     toValue: { x: gesture.dx, y: gesture.dy}
                 }).start();
             },
-            onPanResponderRelease: () => {}
+            onPanResponderRelease: () => {
+                this.resetPosition();
+            }
         });
 
         this.state = { panResponder, position }; // 'panResponder' is own self-contained object, we're not trying to update (mutable) it in shape form.
@@ -32,6 +34,12 @@ class Deck extends Component {
         /* this._panResponder = PanResponder.create({
 
         }); */
+    }
+
+    resetPosition() {
+        Animated.spring(this.state.position, {
+            toValue: { x: 0, y: 0 }
+        }).start();
     }
 
     getCardStyle() {
